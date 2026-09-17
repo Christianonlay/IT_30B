@@ -71,9 +71,28 @@ session_start();
                     <?php foreach($student as $student): ?>
                         <tr>
                             <td>
-                                <?html
+                                <?htmlspecialchars($student['student_id']) ?>
+                                <tr>
+                                    <td>
+                                         <?htmlspecialchars($student['student_first_name']) ?>
+                                <tr>
+                                    <td> <?htmlspecialchars($student['student_last_name']) ?>
+                                <tr>
+                                    <td> <?htmlspecialchars($student['student_course']) ?>
+                                <tr>
+                                    <td> <?htmlspecialchars($student['student_created_at']) ?>
+                                <tr>
+                                    <td>
+                                        <a>Edit</a>
+                                        <a>Delete</a>
+                    </td>
+                     </tr>
+                     <?php endforeach?>   
                 </tbody>
             </thead>
+
+                    </table>
+
     <?php endif;?>
 
     <?php if ($section === 'books'): ?>
@@ -83,9 +102,7 @@ session_start();
     <?php if ($section === 'borrow'): ?>
     <h1>borrow</h1>
     <?php endif;?>
-
-
-
+    
     
 </body>
 </html>
