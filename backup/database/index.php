@@ -2,7 +2,7 @@
 
 
 $host = 'localhost';
-$db = 'IT30_LAB_DB';
+$db = 'it30b_lab_db';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';
@@ -36,6 +36,34 @@ session_start();
         ");
         $student = $stmt->fetchALL();
     }
+    if($section=='student' && &action==='create'){
+        if($ _SERVER['REQUEST_METHOD']==='POST'){
+
+            $FirstName = trim($_POST['student_first_name'] ?? '');
+            $FirstName = trim($_POST['student_last_name'] ?? '');
+            $FirstName = trim($_POST['student_course'] ?? '');
+
+            if($firstname !== '' && $course!== ''){
+                $sql = "
+                INSERT INTO student(
+                student_first_name,
+                student_last_name,
+                student_course)
+                VALUES (?,?,?)
+                ";
+                $stmt=$pdo->prepare($sql);
+
+                $stmt->execute([
+                    $firstname,
+                    $lastname,
+                    $course
+                ]);
+                header("Location: index.php?section=student");
+                exit;
+            }
+
+        }
+    }
 
 ?>
 <!DOCTYPE html>
@@ -51,10 +79,69 @@ session_start();
         <a href="index.php?section=student">student</a>
          <a href="index.php?section=book">books</a>
           <a href="index.php?section=borrow">borrow</a>
-</nav>
-<hr>
-<?php if ($section === 'student'): ?>
-    <h1>student</h1>
+    </nav>
+    <hr>
+        <?php if ($section === 'student'): ?>
+         <h1>student</h1>
+
+        <p>
+
+        <a href="index.php?section=students&action=create">
+            add student
+        </a>
+        </p>
+        
+        hp if($action=== 'student'): ?>
+            <h2>Create Student</h2>
+
+            <form method="POST">
+                <P>
+                    <label>First Name:</label>
+                    <tr>
+                        <input type= "text"
+                            name="student_first_name"
+                            required
+                            />
+        </p>
+        <p>
+                      <label>last Name:</label>
+                    <tr>
+                        <input type= "text"
+                            name="student_last_name"
+                            required
+                            />
+        </p>
+        <p>
+                      <label>Course:</label>
+                    <tr>
+                        <input type= "text"
+                            name="student_course"
+                            required
+                            />
+        </p>
+        <p>
+            <button  type="submit">
+                Save
+        </button>
+        <a href="index.php?section=students">
+            Cancel
+        </a>
+        </form>
+        <?php else: ?>
+        <?php endif; ?>
+
+
+
+
+
+
+
+            <?php if (section==='create'): ?>
+                <h2>Create Student</h2>
+                <?php else: ?>
+                    <table>
+                </table>
+                
     <table>
         <thead>
             <tr>
