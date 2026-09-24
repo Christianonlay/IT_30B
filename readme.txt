@@ -20,3 +20,9 @@
         JOIN student s ON br.student_id = s.student_id
         JOIN books b ON br.book_id = b.book_id
         ORDER BY br.borrow_date DESC;
+
+
+        CREATE TABLE students(student_id int auto_increment primary key,
+        student_first_name varchar(50) not null,
+        student_last_name varchar(50) not null,
+        student_course varchar(50) not null);
