@@ -132,6 +132,7 @@ if ($section === 'books' && $action === 'create') {
 
 // Update Book
 if ($section === 'books' && $action === 'update') {
+    
 
     $bookId = (int) ($_GET['id'] ?? 0);
 
@@ -371,7 +372,76 @@ if($section === 'student' && $action === 'update'){
         die("Student Not Found");
 
     }
-}
+    //RETRIEVE BORROWED BOOKS
+
+    if($section==='borrow' && action==='create'){
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $studentID = (int) ($_POST['student_id'] ?? 00);
+            $bookID = (int) ($_POST['book_id'] ?? 00);
+
+            if($studentID >0 && $book >0){
+
+                $stmt = $pdo->prepare("
+                SELECT borrow_id
+                FROM borrow
+                WHERE student_id=?
+                 AND borrow_return_date IS NULL
+                 LIMIT 1
+                 ");
+                 
+                 $stmt->execute([$studentID]);
+
+                 $studentBorrow = $stmt->fetch();
+
+                 if($studentBorrow){
+                    $_SESSION['alert'] = "This student connot borrow another book because a previous book has been return";
+                 
+
+                 }else{
+                    $stmt = $pdo->prepare("
+                    SELECT borrow_id
+                    FROM borrow
+                    WHERE book_id = ?
+                     AND borrow-return_date IS NULL
+                     limit 1
+                     ");
+                     
+                     $stmt->execute(['borrowID']);
+
+                     $bookBorrow = $stmt->fetch();
+
+                     if($bookBorrow){
+                        $_SESSION['alert'] = "This book cannot be borrowed because it has not been return.";
+                     }else{
+
+                        $stmt = $pdo->preapre("
+                        INSERT INTO borrow(
+                        student_id,
+                        book_id
+                        )
+                        VALUES(?,?)
+                        ");
+
+                        $stmt->execute([
+                            $studentID,
+                            $bookID
+                        ]);
+
+                        $_SESSION['alert'] = "book borrowed successfully.";
+
+                     }
+                     }
+                     header("Location: index.php?section=borrow");
+                     exit;
+                 }
+            }
+
+
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -393,7 +463,7 @@ if($section === 'student' && $action === 'update'){
     <h1>Simple Library System</h1>
 
     <nav>
-        <a href="index.php?section=students">
+        <a href="index.php?section=student">
             Student
         </a>
 
@@ -619,7 +689,7 @@ if($section === 'student' && $action === 'update'){
         <h2>Books</h2>
 
          <p>
-            <a href="index.php?section=student&action=create">
+            <a href="index.php?section=books&action=create">
                 Add New books
             </a>
         </p>
@@ -825,13 +895,35 @@ if($section === 'student' && $action === 'update'){
 
     <?php elseif ($section === 'borrow'): ?>
 
-        <h2>Borrow</h2>
+        <h2>Borrow</h1>
+        <p>
+            <a href="index.php?section=borrrow&action=create">
+                borrow a book
+    </a>
 
+        <p>
+        <?php if ($action=='create'): ?>
+            <h2>Borrow a Book</h2>
+            <form method="POST">
+        </form>
 
+          
+        <?php endif; ?>
 
-    <?php endif; ?>
+        <?php endif; ?>
 
 
 </body>
 
+<?php if():?>
+
+    <?php if(isset($_SESSION['alert'])): ?>
+
+    <script>
+        alert(<= json_encode($_SESSION['alert']) >? );
+        </script>
+
+        <?php unset($_SESSION['alert']): ?>
+
+        <?php  endif: ?>
 </html>
