@@ -467,11 +467,13 @@ if($section==='borrow' && $action==='return'){
                 </p>
 
                 <button type="submit">
+
                     Update
                 </button>
 
                 <a href="index.php?section=student">
                     Cancel
+                    
                 </a>
             </form>
 
