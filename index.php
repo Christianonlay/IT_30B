@@ -473,7 +473,7 @@ if($section==='borrow' && $action==='return'){
 
                 <a href="index.php?section=student">
                     Cancel
-                    
+
                 </a>
             </form>
 
@@ -713,22 +713,22 @@ if($section==='borrow' && $action==='return'){
 
             <form method="POST">
 
-                <label>Student</label>
-                <br>
-                <select name=student_id required>
-                    <option value="">
-                        -- Select Student--
-                    </option>
-                    <?php foreach($students as $student): ?>
-                        <option value="<?= $student['student_id']?> ">
-                            <?= htmlspecialchars(
-                                $student['student_first_name']
-                                .' '.
-                                $student['student_last_name']
-                            )?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+              
+    <label>Student</label>
+    <br>
+
+    <select name="student_id" required>
+    <option value="">-- Select Student --</option>
+
+    <?php foreach ($student as $s): ?>
+        <option value="<?= htmlspecialchars($s['student_id']) ?>">
+            <?= htmlspecialchars(
+                $s['student_first_name'] . ' ' .
+                $s['student_last_name']
+            ) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
                 <br>
                 <br>
