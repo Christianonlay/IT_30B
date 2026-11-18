@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db   = 'it30_lab_db';
+$db   = 'it30b_lab_db';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';

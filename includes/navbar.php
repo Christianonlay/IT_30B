@@ -1,6 +1,4 @@
 <?php
-
-
 $currentSection = $_GET['section'] ?? 'dashboard';
 
 function navActive($section, $currentSection){
